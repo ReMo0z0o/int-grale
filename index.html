@@ -29,31 +29,7 @@
   --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   --mono:ui-monospace,"Cascadia Code",Menlo,Consolas,monospace;
 }
-@media (prefers-color-scheme: dark){
-  :root{
-    --paper:#0F141D; --panel:#161D29; --panel2:#1B2331;
-    --ink:#E3E9F4; --muted:#96A3B8;
-    --pen:#79A6FF; --pen-strong:#A8C4FF; --pen-soft:#1D2B45;
-    --hl:#CBA92E; --hl-ink:#141000;
-    --line:#283242; --grid:#202A3A;
-    --ok:#4CC38A; --ok-soft:#12301F;
-    --err:#E5726A; --err-soft:#3A1D1A;
-    --warn-soft:#33290F;
-    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px -14px rgba(0,0,0,.6);
-  }
-}
-:root[data-theme="light"]{
-  --paper:#FBFAF5; --panel:#FFFFFF; --panel2:#F4F3EC;
-  --ink:#22324A; --muted:#5D6B80;
-  --pen:#2456C4; --pen-strong:#173B85; --pen-soft:#E4EBFA;
-  --hl:#FFE45C; --hl-ink:#4A3F00;
-  --line:#E2E0D4; --grid:#DEE6F2;
-  --ok:#1F7D57; --ok-soft:#E2F3EA;
-  --err:#C0443B; --err-soft:#FAE7E5;
-  --warn-soft:#FFF4D6;
-  --shadow:0 1px 2px rgba(34,50,74,.06),0 8px 24px -12px rgba(34,50,74,.18);
-}
-:root[data-theme="dark"]{
+:root[data-app-theme="dark"]{
   --paper:#0F141D; --panel:#161D29; --panel2:#1B2331;
   --ink:#E3E9F4; --muted:#96A3B8;
   --pen:#79A6FF; --pen-strong:#A8C4FF; --pen-soft:#1D2B45;
@@ -169,9 +145,7 @@ h3{font-family:var(--serif); font-size:17px; margin:22px 0 8px}
   color:inherit; padding:0 2px; border-radius:2px;
   -webkit-box-decoration-break:clone; box-decoration-break:clone;
 }
-:root[data-theme="dark"] .hl{color:var(--ink)}
-@media (prefers-color-scheme: dark){ .hl{color:var(--ink)} }
-:root[data-theme="light"] .hl{color:inherit}
+:root[data-app-theme="dark"] .hl{color:var(--ink)}
 
 /* key result box */
 .keybox{
@@ -254,18 +228,14 @@ sup,sub{line-height:1}
 }
 .btn:hover{border-color:var(--pen); color:var(--pen-strong)}
 .btn.primary{background:var(--pen); border-color:var(--pen); color:#fff}
-:root[data-theme="dark"] .btn.primary{color:#0F141D}
-@media (prefers-color-scheme: dark){ .btn.primary{color:#0F141D} }
-:root[data-theme="light"] .btn.primary{color:#fff}
+:root[data-app-theme="dark"] .btn.primary{color:#0F141D}
 .btn.primary:hover{background:var(--pen-strong); border-color:var(--pen-strong)}
 .btn.small{padding:4px 10px; font-size:12.5px}
 .btn.ghost{border-color:transparent; background:none; color:var(--pen)}
 .seg{display:inline-flex; border:1px solid var(--line); border-radius:8px; overflow:hidden}
 .seg button{border:0; background:var(--panel); padding:5px 12px; font-size:12.5px; color:var(--muted)}
 .seg button.on{background:var(--pen); color:#fff}
-:root[data-theme="dark"] .seg button.on{color:#0F141D}
-@media (prefers-color-scheme: dark){ .seg button.on{color:#0F141D} }
-:root[data-theme="light"] .seg button.on{color:#fff}
+:root[data-app-theme="dark"] .seg button.on{color:#0F141D}
 
 /* ============ AUDIO CAPSULE ============ */
 .capsule{
@@ -279,9 +249,7 @@ sup,sub{line-height:1}
   background:var(--pen); color:#fff; font-size:16px; display:grid; place-items:center;
   box-shadow:var(--shadow); transition:transform .12s;
 }
-:root[data-theme="dark"] .playbtn{color:#0F141D}
-@media (prefers-color-scheme: dark){ .playbtn{color:#0F141D} }
-:root[data-theme="light"] .playbtn{color:#fff}
+:root[data-app-theme="dark"] .playbtn{color:#0F141D}
 .playbtn:hover{transform:scale(1.06)}
 .playbtn.playing{background:var(--err)}
 .capsule .rate{font-size:10.5px; color:var(--muted); border:1px solid var(--line); border-radius:99px; background:var(--panel); padding:2px 8px}
@@ -371,9 +339,7 @@ sup,sub{line-height:1}
   font-family:var(--mono); font-size:11px; background:var(--pen); color:#fff;
   padding:2px 8px; border-radius:5px; flex:none;
 }
-:root[data-theme="dark"] .exam-card .xhead .xtag{color:#0F141D}
-@media (prefers-color-scheme: dark){ .exam-card .xhead .xtag{color:#0F141D} }
-:root[data-theme="light"] .exam-card .xhead .xtag{color:#fff}
+:root[data-app-theme="dark"] .exam-card .xhead .xtag{color:#0F141D}
 .exam-card .xhead .xtitle{font-weight:700; font-size:14px}
 .exam-card .xhead .xpts{margin-left:auto; font-size:12px; color:var(--muted); flex:none}
 .exam-card .xbody{padding:16px 18px}
@@ -1559,12 +1525,9 @@ function initSlice(fig){
   ctl.appendChild(lab);
   slider.addEventListener('input',()=>{x0=+slider.value/100;draw();});
   draw();
-  // redessiner si le thème change
-  if(window.matchMedia){
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>setTimeout(draw,60));
-  }
+  // redessiner si le thème de l'app change
   new MutationObserver(()=>setTimeout(draw,60))
-    .observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+    .observe(document.documentElement,{attributes:true,attributeFilter:['data-app-theme']});
 }
 
 /* ================================================================
@@ -2845,10 +2808,48 @@ function refreshProgress(){
 }
 
 /* ================================================================
+   15 bis. THÈME (clair par défaut, sombre sur demande)
+   ================================================================ */
+function initTheme(){
+  const KEY='integrales-theme';
+  let theme='light';
+  try{theme=localStorage.getItem(KEY)||'light';}catch(e){}
+  function apply(){
+    document.documentElement.setAttribute('data-app-theme',theme);
+    document.querySelectorAll('.themebtn').forEach(b=>{
+      b.textContent=theme==='dark'?'☀️ Mode clair':'🌙 Mode sombre';
+    });
+  }
+  function toggle(){
+    theme=theme==='dark'?'light':'dark';
+    try{localStorage.setItem(KEY,theme);}catch(e){}
+    apply();
+  }
+  const side=document.querySelector('.sidefoot');
+  if(side){
+    const b=document.createElement('button');
+    b.className='btn small themebtn';
+    b.style.cssText='margin-top:12px;width:100%';
+    b.addEventListener('click',toggle);
+    side.appendChild(b);
+  }
+  const top=document.getElementById('topnav');
+  if(top){
+    const b=document.createElement('button');
+    b.className='navitem themebtn';
+    b.style.flex='none';
+    b.addEventListener('click',toggle);
+    top.appendChild(b);
+  }
+  apply();
+}
+
+/* ================================================================
    16. INITIALISATION
    ================================================================ */
 document.addEventListener('DOMContentLoaded',()=>{
   Store.load();
+  initTheme();
   /* données d'exercices */
   Object.assign(EXOS,BANK);
   EXOS.idee=IDEE_ITEMS;
